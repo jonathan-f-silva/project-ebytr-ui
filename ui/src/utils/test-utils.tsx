@@ -2,18 +2,26 @@
 
 import { cleanup, render } from '@testing-library/react';
 import { afterEach } from 'vitest';
-import { TodosProvider } from '../context/TodosContext';
+import { Todo, TodosContextType } from '../@types/custom';
+import { TodosContext } from '../context/TodosContext';
 
 afterEach(() => {
   cleanup();
 });
 
-const customRender = (ui: React.ReactElement, options = {}) => render(ui, {
+const customRender = (
+  ui: React.ReactElement,
+  options = {
+    context: { todos: [], addTodo: () => {} } as unknown,
+  },
+) => render(ui, {
   // wrap provider(s) here if needed
   wrapper: ({ children }) => (
-    <TodosProvider>
+    <TodosContext.Provider
+      value={ options.context as TodosContextType }
+    >
       {children}
-    </TodosProvider>
+    </TodosContext.Provider>
   ),
   ...options,
 });
