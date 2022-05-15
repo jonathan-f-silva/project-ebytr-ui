@@ -1,10 +1,11 @@
 import { describe, it } from 'vitest';
+import { render, screen } from './utils/test-utils';
+
 import App from './App';
 
-import { render } from './utils/test-utils';
-
 describe('App', () => {
-  it('renderiza sem problemas', () => {
+  it('tem o título "Ebytr ToDo"', () => {
     render(<App />);
+    expect(screen.getAllByRole('heading', { name: 'Ebytr ToDo' }));
   });
 });
