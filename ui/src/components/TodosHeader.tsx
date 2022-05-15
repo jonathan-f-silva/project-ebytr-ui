@@ -24,6 +24,7 @@ export default function TodosHeader() {
         data-testid={ TEST_IDS.todoAddButton }
         type="button"
         onClick={ sendTodo }
+        disabled={ inputText === '' }
       >
         Adicionar tarefa
       </button>

@@ -1,12 +1,13 @@
 // https://github.com/vitest-dev/vitest/blob/main/examples/react-testing-lib/src/utils/test-utils.tsx
 
 import { cleanup, render } from '@testing-library/react';
-import { afterEach } from 'vitest';
+import { afterEach, vi } from 'vitest';
 import { Todo, TodosContextType } from '../@types/custom';
 import { TodosContext } from '../context/TodosContext';
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
 });
 
 const customRender = (
