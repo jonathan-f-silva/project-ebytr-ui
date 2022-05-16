@@ -1,3 +1,4 @@
+import { Button, HStack, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import { TodosContextType } from '../@types/custom';
 import { TodosContext } from '../context/TodosContext';
@@ -13,21 +14,23 @@ export default function TodosHeader() {
   };
 
   return (
-    <div>
-      <input
+    <HStack mb={ 5 }>
+      <Input
         data-testid={ TEST_IDS.todoInput }
         placeholder="Digite uma tarefa"
         onChange={ (e) => setInputText(e.target.value) }
         value={ inputText }
       />
-      <button
+      <Button
+        colorScheme="brand"
         data-testid={ TEST_IDS.todoAddButton }
         type="button"
         onClick={ sendTodo }
         disabled={ inputText === '' }
+        minW="10rem"
       >
         Adicionar tarefa
-      </button>
-    </div>
+      </Button>
+    </HStack>
   );
 }
