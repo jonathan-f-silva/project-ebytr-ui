@@ -7,7 +7,7 @@ import TEST_IDS from '../testIds';
 export default function TodoList() {
   const { todos } = useContext(TodosContext) as TodosContextType;
 
-  if (!todos.length) {
+  if (!todos || !todos.length) {
     return (
       <Flex
         justifyContent="center"

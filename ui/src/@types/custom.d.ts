@@ -6,7 +6,7 @@ export type Todo = {
 }
 
 export type TodosContextType = {
-  todos: Todo[],
+  todos: Todo[] | null,
   addTodo: (description: string) => void,
 }
 
