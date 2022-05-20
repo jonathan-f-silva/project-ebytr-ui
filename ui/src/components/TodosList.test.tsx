@@ -21,7 +21,7 @@ describe('Componente TodosList', () => {
 
     expect(screen.getByText(todoMock.description));
     expect(screen.getByText(todoMock.status));
-    expect(screen.getByText(todoMock.createdAt));
+    expect(screen.getByText(new Date(todoMock.createdAt).toLocaleDateString()));
 
     expect(screen.queryByText(noTasksMessage))
       .not.toBeInTheDocument();
