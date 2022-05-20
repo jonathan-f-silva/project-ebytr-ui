@@ -2,7 +2,14 @@ import PropTypes from 'prop-types';
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
-import { ChildrenProps, Todo, TodosContextType } from '../@types/custom';
+import { ChildrenProps, Todo } from '../@types/custom';
+
+export type TodosContextType = {
+  todos: Todo[] | null,
+  addTodo: (description: Todo['description']) => void,
+  updateTodo: (todoId: Todo['_id'], update: Partial<Todo>) => void,
+  updateTodoStatus: (todoId: Todo['_id'], status: Todo['status']) => void,
+}
 
 // React com TS é complexo!
 // https://blog.logrocket.com/how-to-use-react-context-typescript/

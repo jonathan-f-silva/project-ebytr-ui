@@ -5,11 +5,8 @@ export type Todo = {
   createdAt: string,
 }
 
-export type TodosContextType = {
-  todos: Todo[] | null,
-  addTodo: (description: string) => void,
-}
-
 export type ChildrenProps = {
   children: ReactNode,
 }
+
+export const TODO_STATUSES = ['A fazer', 'Em andamento', 'Concluído! 🎉'];
