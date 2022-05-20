@@ -9,6 +9,7 @@ export type TodosContextType = {
   todos: Todo[] | null,
   sortOption: TodoField,
   addTodo: (description: Todo['description']) => void,
+  deleteTodo: (todoId: Todo['_id']) => void,
   setSortOption: (option: TodoField) => void;
   updateTodo: (todoId: Todo['_id'], update: Partial<Todo>) => void,
   updateTodoStatus: (todoId: Todo['_id'], status: Todo['status']) => void,
@@ -74,7 +75,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   }, [getTodos]);
 
   const updateTodo = useCallback(
-    async (todoId: string, update: Partial<Todo>) => {
+    async (todoId: Todo['_id'], update: Partial<Todo>) => {
       const ENDPOINT = '/api';
       const API = axios.create({
         baseURL: ENDPOINT,
@@ -92,7 +93,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   );
 
   const updateTodoStatus = useCallback(
-    async (todoId: string, status: Todo['status']) => {
+    async (todoId: Todo['_id'], status: Todo['status']) => {
       const ENDPOINT = '/api';
       const API = axios.create({
         baseURL: ENDPOINT,
@@ -109,24 +110,41 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
     }, [getTodos],
   );
 
+  const deleteTodo = useCallback(
+    async (todoId: Todo['_id']) => {
+      const ENDPOINT = '/api';
+      const API = axios.create({
+        baseURL: ENDPOINT,
+      });
+      try {
+        await API.delete(`/todos/${todoId}`);
+        await getTodos();
+      } catch (err) {
+        const { message } = err as Error;
+        setError(message);
+      }
+    }, [getTodos],
+  );
+
   useEffect(() => {
     getTodos();
   }, [getTodos]);
 
   // valeu Lint! não conhecia esse! - https://usehooks.com/useMemo/
-  const context : TodosContextType = useMemo(() => (
+  const context: TodosContextType = useMemo(() => (
     {
       error,
       todos,
       sortOption,
       addTodo,
+      deleteTodo,
       setSortOption,
       updateTodo,
       updateTodoStatus,
     }
   ), [
     error, todos, sortOption,
-    setSortOption, addTodo, updateTodo, updateTodoStatus,
+    setSortOption, addTodo, deleteTodo, updateTodo, updateTodoStatus,
   ]);
 
   return (
