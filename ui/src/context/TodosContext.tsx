@@ -13,7 +13,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[] | null>(null);
 
   const getTodos = useCallback(async () => {
-    const ENDPOINT = import.meta.env.VITE_BACKEND || 'http://localhost:3001';
+    const ENDPOINT = '/api';
     const API = axios.create({
       baseURL: ENDPOINT,
     });
@@ -27,7 +27,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   }, []);
 
   const addTodo = useCallback(async (description: string) => {
-    const ENDPOINT = import.meta.env.VITE_BACKEND || 'http://localhost:3001';
+    const ENDPOINT = '/api';
     const API = axios.create({
       baseURL: ENDPOINT,
     });
