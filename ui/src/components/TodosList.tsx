@@ -1,6 +1,7 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import {
-  Badge, Button, Flex, HStack, IconButton, Spacer, Text,
+  Badge, Button, Editable, EditableInput, EditablePreview,
+  Flex, HStack, IconButton, Input, Spacer, Text,
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { Todo } from '../@types/custom';
@@ -9,7 +10,7 @@ import TEST_IDS from '../testIds';
 
 export default function TodoList() {
   const {
-    todos, updateTodoStatus, deleteTodo,
+    todos, updateTodoStatus, deleteTodo, updateTodo,
   } = useContext(TodosContext) as TodosContextType;
 
   const cycleTodoStatus = (todoId: Todo['_id'], currentStatus: Todo['status']) => {
@@ -51,7 +52,14 @@ export default function TodoList() {
           p="1"
         >
           <Badge>{new Date(createdAt).toLocaleDateString()}</Badge>
-          <Text>{description}</Text>
+          <Editable defaultValue={ description }>
+            <EditablePreview />
+            <Input
+              as={ EditableInput }
+              value={ description }
+              onBlur={ (e) => updateTodo(_id, { description: e.target.value }) }
+            />
+          </Editable>
           <Spacer />
           <Button
             size="xs"
