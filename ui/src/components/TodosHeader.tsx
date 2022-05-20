@@ -27,6 +27,7 @@ export default function TodosHeader() {
         data-testid={ TEST_IDS.todoInput }
         placeholder="Digite uma tarefa"
         onChange={ (e) => setInputText(e.target.value) }
+        onKeyUp={ (e) => { if (e.key === 'Enter') sendTodo(); } }
         value={ inputText }
       />
       <Button
