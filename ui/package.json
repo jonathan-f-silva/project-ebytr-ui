@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:coverage": "yarn test --run --coverage"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.0",
