@@ -34,6 +34,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
     try {
       await API.post('/todos', {
         description,
+        status: 'A fazer',
       });
       await getTodos();
     } catch (err) {

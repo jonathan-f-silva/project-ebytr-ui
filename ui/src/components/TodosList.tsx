@@ -28,9 +28,9 @@ export default function TodoList() {
       borderRadius="lg"
       p="2"
     >
-      { todos.map(({ id, description, status, createdAt }) => (
-        <HStack key={ id } p="1">
-          <Badge>{createdAt.toLocaleDateString()}</Badge>
+      { todos.map(({ _id, description, status, createdAt }) => (
+        <HStack key={ _id } p="1">
+          <Badge>{createdAt}</Badge>
           <Badge>{status}</Badge>
           <Text>{description}</Text>
         </HStack>
