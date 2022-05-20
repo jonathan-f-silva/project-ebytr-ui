@@ -4,6 +4,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const API_HOST = process.env.API_HOST || 'localhost';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -11,5 +13,14 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: `http://${API_HOST}:3001`,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
 });
