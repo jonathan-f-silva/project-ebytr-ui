@@ -1,11 +1,16 @@
-import { Badge, Box, Button, Flex, HStack, Spacer, Text, VStack } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
+import {
+  Badge, Button, Flex, HStack, IconButton, Spacer, Text,
+} from '@chakra-ui/react';
 import { useContext } from 'react';
 import { Todo } from '../@types/custom';
 import { TodosContext, TodosContextType, TODO_STATUSES } from '../context/TodosContext';
 import TEST_IDS from '../testIds';
 
 export default function TodoList() {
-  const { todos, updateTodoStatus } = useContext(TodosContext) as TodosContextType;
+  const {
+    todos, updateTodoStatus, deleteTodo,
+  } = useContext(TodosContext) as TodosContextType;
 
   const cycleTodoStatus = (todoId: Todo['_id'], currentStatus: Todo['status']) => {
     const currentIndex = TODO_STATUSES.indexOf(currentStatus);
@@ -54,6 +59,12 @@ export default function TodoList() {
           >
             {status}
           </Button>
+          <IconButton
+            size="xs"
+            aria-label={ `deletar tarefa ${description}` }
+            icon={ <DeleteIcon /> }
+            onClick={ () => deleteTodo(_id) }
+          />
         </HStack>
       ))}
     </Flex>
