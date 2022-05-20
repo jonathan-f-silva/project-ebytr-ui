@@ -43,6 +43,42 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
     }
   }, [getTodos]);
 
+  const updateTodo = useCallback(
+    async (todoId: string, update: Partial<Todo>) => {
+      const ENDPOINT = '/api';
+      const API = axios.create({
+        baseURL: ENDPOINT,
+      });
+      try {
+        await API.put(`/todos/${todoId}`, {
+          ...update,
+        });
+        await getTodos();
+      } catch (err) {
+        const { message } = err as Error;
+        setError(message);
+      }
+    }, [getTodos],
+  );
+
+  const updateTodoStatus = useCallback(
+    async (todoId: string, status: Todo['status']) => {
+      const ENDPOINT = '/api';
+      const API = axios.create({
+        baseURL: ENDPOINT,
+      });
+      try {
+        await API.patch(`/todos/${todoId}/status`, {
+          status,
+        });
+        await getTodos();
+      } catch (err) {
+        const { message } = err as Error;
+        setError(message);
+      }
+    }, [getTodos],
+  );
+
   useEffect(() => {
     getTodos();
   }, [getTodos]);
@@ -53,8 +89,10 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
       error,
       todos,
       addTodo,
+      updateTodo,
+      updateTodoStatus,
     }
-  ), [error, todos, addTodo]);
+  ), [error, todos, addTodo, updateTodo, updateTodoStatus]);
 
   return (
     <TodosContext.Provider value={ context }>
