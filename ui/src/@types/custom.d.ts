@@ -1,12 +1,12 @@
 export type Todo = {
-  id: string,
+  _id: string,
   description: string,
   status: 'A fazer' | 'Em andamento' | 'Concluído! 🎉',
-  createdAt: Date,
+  createdAt: string,
 }
 
 export type TodosContextType = {
-  todos: Todo[],
+  todos: Todo[] | null,
   addTodo: (description: string) => void,
 }
 

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { createContext, ReactNode, useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
+
 import { ChildrenProps, Todo, TodosContextType } from '../@types/custom';
 
 // React com TS é complexo!
@@ -7,27 +9,52 @@ import { ChildrenProps, Todo, TodosContextType } from '../@types/custom';
 export const TodosContext = createContext<TodosContextType | null>(null);
 
 export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [todos, setTodos] = useState<Todo[] | null>(null);
 
-  const addTodo = useCallback((description: string) => {
-    setTodos([
-      ...todos,
-      {
-        id: description + Math.random().toString(),
+  const getTodos = useCallback(async () => {
+    const ENDPOINT = import.meta.env.VITE_BACKEND || 'http://localhost:3001';
+    const API = axios.create({
+      baseURL: ENDPOINT,
+    });
+    try {
+      const { data } = await API.get('/todos');
+      setTodos(data);
+    } catch (err) {
+      const { message } = err as Error;
+      setError(message);
+    }
+  }, []);
+
+  const addTodo = useCallback(async (description: string) => {
+    const ENDPOINT = import.meta.env.VITE_BACKEND || 'http://localhost:3001';
+    const API = axios.create({
+      baseURL: ENDPOINT,
+    });
+    try {
+      await API.post('/todos', {
         description,
         status: 'A fazer',
-        createdAt: new Date(),
-      },
-    ]);
-  }, [todos]);
+      });
+      await getTodos();
+    } catch (err) {
+      const { message } = err as Error;
+      setError(message);
+    }
+  }, [getTodos]);
+
+  useEffect(() => {
+    getTodos();
+  }, [getTodos]);
 
   // valeu Lint! não conhecia esse! - https://usehooks.com/useMemo/
   const context = useMemo(() => (
     {
+      error,
       todos,
       addTodo,
     }
-  ), [todos, addTodo]);
+  ), [error, todos, addTodo]);
 
   return (
     <TodosContext.Provider value={ context }>
