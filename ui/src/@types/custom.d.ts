@@ -8,5 +8,3 @@ export type Todo = {
 export type ChildrenProps = {
   children: ReactNode,
 }
-
-export const TODO_STATUSES = ['A fazer', 'Em andamento', 'Concluído! 🎉'];

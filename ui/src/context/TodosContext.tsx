@@ -11,6 +11,8 @@ export type TodosContextType = {
   updateTodoStatus: (todoId: Todo['_id'], status: Todo['status']) => void,
 }
 
+export const TODO_STATUSES = ['A fazer', 'Em andamento', 'Concluído! 🎉'];
+
 // React com TS é complexo!
 // https://blog.logrocket.com/how-to-use-react-context-typescript/
 export const TodosContext = createContext<TodosContextType | null>(null);

@@ -2,8 +2,7 @@
 
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
-import { Todo, TodosContextType } from '../@types/custom';
-import { TodosContext } from '../context/TodosContext';
+import { TodosContext, TodosContextType } from '../context/TodosContext';
 
 afterEach(() => {
   cleanup();

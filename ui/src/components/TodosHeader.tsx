@@ -1,7 +1,6 @@
 import { Button, HStack, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
-import { TodosContextType } from '../@types/custom';
-import { TodosContext } from '../context/TodosContext';
+import { TodosContext, TodosContextType } from '../context/TodosContext';
 import TEST_IDS from '../testIds';
 
 export default function TodosHeader() {
