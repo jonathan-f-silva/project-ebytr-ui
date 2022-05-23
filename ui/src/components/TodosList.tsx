@@ -68,6 +68,7 @@ export default function TodoList() {
             {status}
           </Button>
           <IconButton
+            data-testid={ `${TEST_IDS.todoDelButton}-${_id}` }
             size="xs"
             aria-label={ `deletar tarefa ${description}` }
             icon={ <DeleteIcon /> }
