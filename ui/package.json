@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --run",
     "test:coverage": "yarn test --run --coverage"
   },
   "dependencies": {
@@ -22,6 +22,8 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^6.0.2",
+    "@stryker-mutator/typescript-checker": "^6.0.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/react-hooks": "^8.0.0",
