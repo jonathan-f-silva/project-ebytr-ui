@@ -39,6 +39,7 @@ export default function TodosHeader() {
         Adicionar tarefa
       </Button>
       <Select
+        data-testid={ TEST_IDS.todoSortSelect }
         onChange={ (e) => {
           const selectedOption = e.target.value as TodoField;
           setSortOption(selectedOption);

@@ -29,6 +29,19 @@ describe('Componente TodosHeader', () => {
     expect(mockAddTodo).toHaveBeenCalledWith(todoDescription);
   });
 
+  it('Ao digitar enter é adicionada uma tarefa', async () => {
+    const mockAddTodo = vi.fn();
+
+    render(<TodosHeader />, { context: { addTodo: mockAddTodo } });
+
+    const input = screen.getByTestId(TEST_IDS.todoInput);
+
+    await userEvent.type(input, `${todoDescription}{Enter}`);
+
+    expect(mockAddTodo).toHaveBeenCalledTimes(1);
+    expect(mockAddTodo).toHaveBeenCalledWith(todoDescription);
+  });
+
   it('Não pode adicionar tarefa vazia', async () => {
     const mockAddTodo = vi.fn();
 
@@ -41,5 +54,16 @@ describe('Componente TodosHeader', () => {
     await userEvent.click(button);
 
     expect(mockAddTodo).toHaveBeenCalledTimes(0);
+  });
+
+  it('Chama updateTodoStatus ao alterar a ordenação', async () => {
+    const setSortOption = vi.fn();
+    render(<TodosHeader />, { context: { setSortOption } });
+
+    const statusButtons = screen.getByTestId(TEST_IDS.todoSortSelect);
+
+    await userEvent.selectOptions(statusButtons, 'description');
+
+    expect(setSortOption).toHaveBeenCalledOnce();
   });
 });

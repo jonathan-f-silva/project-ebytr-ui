@@ -44,6 +44,7 @@ export default function TodosItem({ todo }: TodosItemProps) {
       </Editable>
       <Spacer />
       <Button
+        data-testid={ `${TEST_IDS.todoStatusButton}-${_id}` }
         size="xs"
         onClick={ () => cycleTodoStatus(_id, status) }
       >
