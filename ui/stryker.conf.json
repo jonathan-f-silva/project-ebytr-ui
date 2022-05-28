@@ -7,6 +7,11 @@
     "clear-text",
     "progress"
   ],
+  "ignorePatterns": [
+    "test/**/*",
+    "utils/test*",
+    "main.tsx"
+  ],
   "testRunner": "command",
   "coverageAnalysis": "off"
 }

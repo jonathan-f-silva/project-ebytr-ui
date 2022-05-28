@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server } from './test/mockApi/server';
 
-import TEST_IDS from './testIds';
+import TEST_IDS from './utils/testIds';
 import App from './App';
 import { TodosProvider } from './context/TodosContext';
 

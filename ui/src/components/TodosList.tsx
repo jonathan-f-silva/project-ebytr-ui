@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { TodosContext, TodosContextType } from '../context/TodosContext';
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 import TodosItem from './TodosItem';
 
 export default function TodoList() {

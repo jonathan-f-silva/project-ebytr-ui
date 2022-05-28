@@ -3,7 +3,7 @@ import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Button, HStack, IconButton, Input, Spacer, Text } from '@chakra-ui/react';
 import { Todo } from '../@types/custom';
 import { TodosContext, TodosContextType, TODO_STATUSES } from '../context/TodosContext';
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 
 type TodosItemProps = {
   todo: Todo,

@@ -3,7 +3,7 @@ import { render as renderWithoutWrapper } from '@testing-library/react';
 
 import axios from 'axios';
 
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 import { screen, userEvent } from '../utils/test-utils';
 import Todos from './Todos';
 import { TodosProvider } from '../context/TodosContext';

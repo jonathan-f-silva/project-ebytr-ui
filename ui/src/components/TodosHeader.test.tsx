@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 import { render, screen, userEvent } from '../utils/test-utils';
 import TodosHeader from './TodosHeader';
 

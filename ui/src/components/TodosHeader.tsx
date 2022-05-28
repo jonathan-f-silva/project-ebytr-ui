@@ -6,7 +6,7 @@ import {
   TodosContextType,
   TODO_FIELDS,
 } from '../context/TodosContext';
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 
 export default function TodosHeader() {
   const {

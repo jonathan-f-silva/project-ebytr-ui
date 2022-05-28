@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { noTasksMessage, todoMock, todoMocks } from '../test/todoMocks';
 
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 import { render, screen, userEvent } from '../utils/test-utils';
 import TodosList from './TodosList';
 
