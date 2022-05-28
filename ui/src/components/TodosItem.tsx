@@ -1,9 +1,6 @@
-import { useContext } from 'react';
-import { DeleteIcon } from '@chakra-ui/icons';
-import {
-  Badge, Button, Editable, EditableInput, EditablePreview,
-  HStack, IconButton, Input, Spacer,
-} from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
+import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { Button, HStack, IconButton, Input, Spacer, Text } from '@chakra-ui/react';
 import { Todo } from '../@types/custom';
 import { TodosContext, TodosContextType, TODO_STATUSES } from '../context/TodosContext';
 import TEST_IDS from '../testIds';
@@ -14,6 +11,8 @@ type TodosItemProps = {
 
 export default function TodosItem({ todo }: TodosItemProps) {
   const { _id, createdAt, description, status } = todo;
+  const [editMode, setEditMode] = useState(false);
+  const [editDescription, setEditDescription] = useState(description);
   const {
     deleteTodo, updateTodo, updateTodoStatus,
   } = useContext(TodosContext) as TodosContextType;
@@ -26,6 +25,10 @@ export default function TodosItem({ todo }: TodosItemProps) {
     updateTodoStatus(todoId, newStatus);
   };
 
+  useEffect(() => {
+    setEditMode(false);
+  }, [todo]);
+
   return (
     <HStack
       key={ _id }
@@ -33,26 +36,53 @@ export default function TodosItem({ todo }: TodosItemProps) {
       w="100%"
       p="1"
     >
-      <Badge>{new Date(createdAt).toLocaleDateString()}</Badge>
-      <Editable defaultValue={ description }>
-        <EditablePreview />
-        <Input
-          as={ EditableInput }
-          value={ description }
-          onBlur={ (e) => updateTodo(_id, { description: e.target.value }) }
-        />
-      </Editable>
+      <Text
+        fontWeight="bold"
+        background="ButtonFace"
+        px="1"
+        borderRadius="5"
+      >
+        {new Date(createdAt).toLocaleDateString()}
+      </Text>
+      {
+        editMode
+          ? (
+            <Input
+              value={ editDescription }
+              onChange={ (e) => setEditDescription(e.target.value) }
+            />
+          )
+          : <Text px="4">{description}</Text>
+      }
       <Spacer />
       <Button
         data-testid={ `${TEST_IDS.todoStatusButton}-${_id}` }
-        size="xs"
+        minW="10em"
         onClick={ () => cycleTodoStatus(_id, status) }
       >
         {status}
       </Button>
+      {
+        editMode
+          ? (
+            <IconButton
+              data-testid={ `${TEST_IDS.todoSaveButton}-${_id}` }
+              aria-label={ `salvar tarefa ${description}` }
+              icon={ <CheckIcon /> }
+              onClick={ () => updateTodo(_id, { description: editDescription }) }
+            />
+          )
+          : (
+            <IconButton
+              data-testid={ `${TEST_IDS.todoEditButton}-${_id}` }
+              aria-label={ `editar tarefa ${description}` }
+              icon={ <EditIcon /> }
+              onClick={ () => setEditMode(!editMode) }
+            />
+          )
+      }
       <IconButton
         data-testid={ `${TEST_IDS.todoDelButton}-${_id}` }
-        size="xs"
         aria-label={ `deletar tarefa ${description}` }
         icon={ <DeleteIcon /> }
         onClick={ () => deleteTodo(_id) }

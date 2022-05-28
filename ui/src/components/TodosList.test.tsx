@@ -27,7 +27,7 @@ describe('Componente TodosList', () => {
       .not.toBeInTheDocument();
   });
 
-  it('Chama removeTodo ao clicar em remover tarefa', async () => {
+  it('Chama deleteTodo ao clicar em remover tarefa', async () => {
     const deleteTodo = vi.fn();
     render(<TodosList />, { context: { todos: todoMocks, deleteTodo } });
 
@@ -40,14 +40,18 @@ describe('Componente TodosList', () => {
     expect(deleteTodo).toHaveBeenCalledOnce();
   });
 
-  it('Chama updateTodo ao clicar na tarefa e digitar texto', async () => {
+  it('Chama updateTodo ao editar a tarefa e salvar', async () => {
     const updateTodo = vi.fn();
     render(<TodosList />, { context: { todos: todoMocks, updateTodo } });
 
-    const secondTaskText = screen.getByText(todoMocks[1].description);
+    const editButtons = screen.getAllByRole('button', { name: /editar/i });
+    await userEvent.click(editButtons[1]);
 
-    await userEvent.click(secondTaskText);
-    await userEvent.type(secondTaskText, 'Another thing\n');
+    const editInput = screen.getByRole('textbox');
+    await userEvent.type(editInput, 'Another thing');
+
+    const saveButton = screen.getByRole('button', { name: /salvar/i });
+    await userEvent.click(saveButton);
 
     expect(updateTodo).toHaveBeenCalledOnce();
   });

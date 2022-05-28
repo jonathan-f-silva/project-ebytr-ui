@@ -10,7 +10,9 @@ import ebytrLogo from './assets/ebytr.svg';
 function App() {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Container>
+    <Container
+      maxW="80ch"
+    >
       {/* Inspiração: https://chakra-templates.dev/navigation/navbar */}
       <HStack justifyContent="space-between" my={ 5 }>
         <HStack as="header" alignItems="center" spacing={ 4 }>
