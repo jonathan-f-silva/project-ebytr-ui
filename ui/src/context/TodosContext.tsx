@@ -28,17 +28,14 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [sortOption, setSortOption] = useState<TodoField>('createdAt');
 
   const sortTodos = useCallback((unsortedTodos = [] as Todo[]) => {
-    if (unsortedTodos !== null) {
-      const sortedTodos = unsortedTodos.sort((a, b) => {
-        const REVERSE = -1;
-        if (a[sortOption].toLowerCase() > b[sortOption].toLowerCase()) {
-          return 1;
-        }
-        return REVERSE;
-      });
-      return sortedTodos;
-    }
-    return [];
+    const sortedTodos = unsortedTodos.sort((a, b) => {
+      const REVERSE = -1;
+      if (a[sortOption].toLowerCase() > b[sortOption].toLowerCase()) {
+        return 1;
+      }
+      return REVERSE;
+    });
+    return sortedTodos;
   }, [sortOption]);
 
   const getTodos = useCallback(async () => {
