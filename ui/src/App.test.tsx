@@ -1,39 +1,60 @@
 import { describe, it } from 'vitest';
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { server } from './test/mockApi/server';
 
 import TEST_IDS from './utils/testIds';
 import App from './App';
 import { TodosProvider } from './context/TodosContext';
+import { DB } from './test/mockApi/handlers';
+import { todoMocks } from './test/todoMocks';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterAll(() => server.close());
+afterEach(() => server.resetHandlers());
 
 describe('App', () => {
-  it('tem o título "Ebytr ToDo"', () => {
-    render(<App />);
+  it('tem o título "Ebytr ToDo"', async () => {
+    render(<TodosProvider><App /></TodosProvider>);
 
-    expect(screen.getByRole('heading', { name: 'Ebytr ToDo' }));
+    expect(await screen.findByRole('heading', { name: 'Ebytr ToDo' }));
   });
 });
 
-describe.only('App - uso geral', () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-  afterAll(() => server.close());
-
-  const todoText = 'Tarefa';
-  const TODOS_QTY = 3;
+describe('App - uso geral', () => {
+  const todoText = 'Teste de tarefa';
+  const TODOS_QTY = 4;
+  DB.todos = todoMocks;
 
   it('cria, edita, ordena e remove tarefas', async () => {
     render(<TodosProvider><App /></TodosProvider>);
 
-    const addTodoInput = screen.getByTestId(TEST_IDS.todoInput);
+    const addTodoInput = await screen.findByTestId(TEST_IDS.todoInput);
 
-    await userEvent.type(addTodoInput, `${todoText} 1{Enter}`);
-    await userEvent.type(addTodoInput, `${todoText} 2{Enter}`);
-    await userEvent.type(addTodoInput, `${todoText} 3{Enter}`);
+    await userEvent.type(addTodoInput, `${todoText}{Enter}`);
 
-    const createdTodos = await screen.findAllByText(todoText, { exact: false });
+    const todoList = await screen.findByTestId(TEST_IDS.todoList);
+    await waitFor(() => expect(todoList.children).toHaveLength(TODOS_QTY));
 
-    expect(createdTodos).toHaveLength(TODOS_QTY);
+    const newText = 'Nova descrição';
+    const editButtons = await within(todoList)
+      .findAllByRole('button', { name: /editar/i });
+    await userEvent.click(editButtons[1]);
+
+    const editInput = await within(todoList).findByRole('textbox');
+    await userEvent.clear(editInput);
+    await userEvent.type(editInput, newText);
+
+    const saveButton = await within(todoList)
+      .findByRole('button', { name: /salvar/i });
+    await userEvent.click(saveButton);
+
+    const delButtons = within(todoList)
+      .getAllByRole('button', { name: /deletar/i });
+    await userEvent.click(delButtons[0]);
+
+    await screen.findByText(newText);
+    await screen.findByText(todoText);
   });
 });
