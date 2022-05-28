@@ -27,9 +27,9 @@ export const DB = {
 };
 
 export const handlers = [
-  rest.get('/', (req, res, ctx) => res(ctx.status(HTTP_STATUS_CODE.OK))),
+  rest.get('/', (_req, res, ctx) => res(ctx.status(HTTP_STATUS_CODE.OK))),
 
-  rest.get(API_ENDPOINT, (req, res, ctx) => res(
+  rest.get(API_ENDPOINT, (_req, res, ctx) => res(
     ctx.status(HTTP_STATUS_CODE.OK),
     ctx.json(DB.todos),
   )),
