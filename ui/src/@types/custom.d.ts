@@ -5,10 +5,7 @@ export type Todo = {
   createdAt: string,
 }
 
-export type TodosContextType = {
-  todos: Todo[] | null,
-  addTodo: (description: string) => void,
-}
+export type TodoField = keyof Omit<Todo, '_id'>
 
 export type ChildrenProps = {
   children: ReactNode,

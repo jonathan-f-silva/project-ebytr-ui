@@ -1,11 +1,19 @@
-import { Button, HStack, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import {
+  Button, HStack, Input, InputGroup, InputRightElement, Select,
+} from '@chakra-ui/react';
 import { useContext, useState } from 'react';
-import { TodosContextType } from '../@types/custom';
-import { TodosContext } from '../context/TodosContext';
+import { TodoField } from '../@types/custom';
+import {
+  TodosContext,
+  TodosContextType,
+  TODO_FIELDS,
+} from '../context/TodosContext';
 import TEST_IDS from '../testIds';
 
 export default function TodosHeader() {
-  const { addTodo } = useContext(TodosContext) as TodosContextType;
+  const {
+    addTodo, sortOption, setSortOption,
+  } = useContext(TodosContext) as TodosContextType;
   const [inputText, setInputText] = useState('');
 
   const sendTodo = () => {
@@ -19,6 +27,7 @@ export default function TodosHeader() {
         data-testid={ TEST_IDS.todoInput }
         placeholder="Digite uma tarefa"
         onChange={ (e) => setInputText(e.target.value) }
+        onKeyUp={ (e) => { if (e.key === 'Enter') sendTodo(); } }
         value={ inputText }
       />
       <Button
@@ -31,6 +40,18 @@ export default function TodosHeader() {
       >
         Adicionar tarefa
       </Button>
+      <Select
+        onChange={ (e) => {
+          const selectedOption = e.target.value as TodoField;
+          setSortOption(selectedOption);
+        } }
+        value={ sortOption }
+        placeholder="Ordenar por"
+      >
+        {TODO_FIELDS.map((field) => (
+          <option key={ field } value={ field }>{field}</option>
+        ))}
+      </Select>
     </HStack>
   );
 }
