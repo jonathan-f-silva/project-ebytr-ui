@@ -1,6 +1,4 @@
-import {
-  Button, HStack, Input, InputGroup, InputRightElement, Select,
-} from '@chakra-ui/react';
+import { Button, HStack, Input, Select } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import { TodoField } from '../@types/custom';
 import {
@@ -8,7 +6,7 @@ import {
   TodosContextType,
   TODO_FIELDS,
 } from '../context/TodosContext';
-import TEST_IDS from '../testIds';
+import TEST_IDS from '../utils/testIds';
 
 export default function TodosHeader() {
   const {
@@ -41,6 +39,7 @@ export default function TodosHeader() {
         Adicionar tarefa
       </Button>
       <Select
+        data-testid={ TEST_IDS.todoSortSelect }
         onChange={ (e) => {
           const selectedOption = e.target.value as TodoField;
           setSortOption(selectedOption);
