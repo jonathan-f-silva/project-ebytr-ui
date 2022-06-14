@@ -13,14 +13,8 @@ FROM development AS builder
 RUN npm run build
 
 # Stage 3 - Set up build files on Nginx
-FROM nginx:alpine AS production
-EXPOSE 80
-COPY ./deploy/nginx/nginx.conf /etc/nginx/nginx.conf
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static resources
-RUN rm -rf ./*
-# Copies static resources from builder stage
-COPY --from=builder /app/dist .
+FROM nginxinc/nginx-unprivileged:stable-alpine as production
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 8080
 USER 101
-# Containers run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
