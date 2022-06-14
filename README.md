@@ -4,7 +4,7 @@ Parte do frontend do app Ebytr (UI), que usa React Vite e Chakra UI.
 
 ## Rodando localmente em modo de desenvolvimento
 
-É necessário ter [Docker](https://docs.docker.com/get-docker/) instalado na máquina.
+É necessário ter [Docker](https://docs.docker.com/get-docker/) instalado na máquina e a [imagem Ebytr ToDo API](https://github.com/jonathan-f-silva/project-ebytr-api) rodando na porta 3001.
 
 - Clone o repositório
 ```shell
