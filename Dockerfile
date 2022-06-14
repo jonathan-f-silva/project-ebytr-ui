@@ -21,7 +21,6 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 # Copies static resources from builder stage
 COPY --from=builder /app/dist .
-RUN chown -R 1000:1000 /app
-USER 1000
+USER 101
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
