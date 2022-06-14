@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react';
 
 const API_HOST = process.env.API_HOST || 'localhost';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -18,6 +17,10 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
+    hmr: {
+      port: 3002,
+    },
     proxy: {
       '/api': {
         target: `http://${API_HOST}:3001`,

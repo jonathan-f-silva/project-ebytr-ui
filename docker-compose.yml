@@ -1,0 +1,18 @@
+services:
+  ui:
+    build: 
+      context: .
+      target: development
+    ports:
+      - 3000:3000
+      - 3002:3002
+    volumes:
+      - ./src:/app/src
+    environment:
+      - API_HOST=api
+    networks:
+      - ebytr-dev
+
+networks:
+  ebytr-dev:
+    name: ebytr-dev
