@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const API_HOST = process.env.API_HOST || 'localhost';
+const API_URL = process.env.API_URL || `http://${API_HOST}:3001`;
 
 export default defineConfig({
   plugins: [react()],
@@ -23,7 +24,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: `http://${API_HOST}:3001`,
+        target: API_URL,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
