@@ -1,4 +1,7 @@
-node_modules
+.git*
+.nyc_output
+.vscode
 coverage
 dist
-.vscode
+node_modules
+reports
