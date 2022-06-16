@@ -18,6 +18,13 @@ export type TodosContextType = {
 export const TODO_STATUSES = ['A fazer', 'Em andamento', 'Concluído! 🎉'];
 export const TODO_FIELDS: TodoField[] = ['createdAt', 'description', 'status'];
 
+const API_URL = import.meta.env.VITE_API_URL;
+const ENDPOINT = API_URL ? `${API_URL}/api` : '/api';
+
+const API = axios.create({
+  baseURL: ENDPOINT,
+});
+
 // React com TS é complexo!
 // https://blog.logrocket.com/how-to-use-react-context-typescript/
 export const TodosContext = createContext<TodosContextType | null>(null);
@@ -39,10 +46,6 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   }, [sortOption]);
 
   const getTodos = useCallback(async () => {
-    const ENDPOINT = '/api';
-    const API = axios.create({
-      baseURL: ENDPOINT,
-    });
     try {
       const { data } = await API.get<Todo []>('/todos');
       if (data) {
@@ -55,10 +58,6 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   }, [sortTodos]);
 
   const addTodo = useCallback(async (description: string) => {
-    const ENDPOINT = '/api';
-    const API = axios.create({
-      baseURL: ENDPOINT,
-    });
     try {
       await API.post('/todos', {
         description,
@@ -73,10 +72,6 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
 
   const updateTodo = useCallback(
     async (todoId: Todo['_id'], update: Partial<Todo>) => {
-      const ENDPOINT = '/api';
-      const API = axios.create({
-        baseURL: ENDPOINT,
-      });
       try {
         await API.put(`/todos/${todoId}`, {
           ...update,
@@ -91,10 +86,6 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
 
   const updateTodoStatus = useCallback(
     async (todoId: Todo['_id'], status: Todo['status']) => {
-      const ENDPOINT = '/api';
-      const API = axios.create({
-        baseURL: ENDPOINT,
-      });
       try {
         await API.patch(`/todos/${todoId}/status`, {
           status,
@@ -109,10 +100,6 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
 
   const deleteTodo = useCallback(
     async (todoId: Todo['_id']) => {
-      const ENDPOINT = '/api';
-      const API = axios.create({
-        baseURL: ENDPOINT,
-      });
       try {
         await API.delete(`/todos/${todoId}`);
         await getTodos();

@@ -10,6 +10,8 @@ CMD npm run dev
 
 # Stage 2 - Building app
 FROM development AS builder
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 # Stage 3 - Set up build files on Nginx
