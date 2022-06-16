@@ -15,7 +15,7 @@ ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 # Stage 3 - Set up build files on Nginx
-FROM nginxinc/nginx-unprivileged:stable-alpine as production
+FROM nginxinc/nginx-unprivileged:stable-alpine AS production
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 8080
 USER 101
