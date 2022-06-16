@@ -1,14 +1,14 @@
 import { rest } from 'msw';
 import { Todo } from '../../@types/custom';
 
-const HTTP_STATUS_CODE = {
+export const HTTP_STATUS_CODE = {
   OK: 200,
   CREATED: 201,
   NO_CONTENT: 204,
   BAD_REQUEST: 400,
 };
 
-const API_ENDPOINT = '/api/todos';
+export const API_ENDPOINT = '/api/todos';
 
 export const DB = {
   todos: [] as Todo[],

@@ -1,27 +1,30 @@
-import { describe, expect, it, vi } from 'vitest';
-import { render as renderWithoutWrapper } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { render } from '@testing-library/react';
 
-import axios from 'axios';
-
+import { rest } from 'msw';
 import TEST_IDS from '../utils/testIds';
 import { screen, userEvent } from '../utils/test-utils';
-import Todos from './Todos';
-import { TodosProvider } from '../context/TodosContext';
 import { todoMock } from '../test/todoMocks';
+import { server } from '../test/mockApi/server';
+import { API_ENDPOINT, HTTP_STATUS_CODE } from '../test/mockApi/handlers';
 
-vi.mock('axios');
+import { TodosProvider } from '../context/TodosContext';
+import Todos from './Todos';
 
 describe('Componente Todos', () => {
   it('A lista de tarefas aparece ao adicionar uma tarefa', async () => {
-    axios.create = vi.fn().mockImplementation(() => axios);
-    axios.get = vi.fn()
-      // .mockResolvedValueOnce({ data: [] })
-      .mockResolvedValue({ data: [todoMock] });
+    server.use(
+      rest.get(API_ENDPOINT, (_req, res, ctx) => res(
+        ctx.status(HTTP_STATUS_CODE.OK),
+        ctx.json([todoMock]),
+      )),
+    );
 
-    renderWithoutWrapper(<TodosProvider><Todos /></TodosProvider>);
+    render(<TodosProvider><Todos /></TodosProvider>);
 
     const input = screen.getByTestId(TEST_IDS.todoInput);
     const button = screen.getByTestId(TEST_IDS.todoAddButton);
+
     expect(screen.queryByTestId(TEST_IDS.todoList)).not.toBeInTheDocument();
 
     await userEvent.type(input, todoMock.description);

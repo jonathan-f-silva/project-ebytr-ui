@@ -2,17 +2,12 @@ import { describe, it } from 'vitest';
 
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { server } from './test/mockApi/server';
 
 import TEST_IDS from './utils/testIds';
 import App from './App';
 import { TodosProvider } from './context/TodosContext';
 import { DB } from './test/mockApi/handlers';
 import { todoMocks } from './test/todoMocks';
-
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterAll(() => server.close());
-afterEach(() => server.resetHandlers());
 
 describe('App', () => {
   it('tem o título "Ebytr ToDo"', async () => {
