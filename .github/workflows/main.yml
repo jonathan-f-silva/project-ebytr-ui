@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verifica o repositório do Git
+        uses: actions/checkout@v2
+
+      - name: Instalando o node com a versão
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Instalando as dependências
+        run: npm install
+
+      - name: Executando linters e testes
+        run: npm run lint && npm test
