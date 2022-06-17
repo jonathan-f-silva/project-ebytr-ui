@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { Todo } from '../../@types/custom';
+import { Todo } from '../@types/custom';
 
 export const HTTP_STATUS_CODE = {
   OK: 200,

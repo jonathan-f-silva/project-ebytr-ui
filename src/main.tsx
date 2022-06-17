@@ -1,8 +1,13 @@
 import React from 'react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
+import { worker } from './mocks/browser';
+
 import App from './App';
 import { TodosProvider } from './context/TodosContext';
+
+// Inicia o mock do backend
+worker.start();
 
 const customTheme = extendTheme({
   semanticTokens: {
