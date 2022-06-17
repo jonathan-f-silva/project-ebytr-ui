@@ -5,9 +5,10 @@
     "node": true
   },
   "extends": [
-    "plugin:react/recommended",
     "airbnb",
-    "eslint-config-trybe-frontend"
+    "plugin:react/recommended",
+    "eslint-config-trybe-frontend",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -26,6 +27,8 @@
     "@typescript-eslint/no-unused-vars": [
       "error"
     ],
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": "error",
     "no-underscore-dangle": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
