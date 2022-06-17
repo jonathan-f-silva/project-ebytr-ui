@@ -64,6 +64,18 @@ export const handlers = [
     );
   }),
 
+  rest.patch(`${API_ENDPOINT}/:id/status`, (req, res, ctx) => {
+    const { status } = req.body as Todo;
+    const { id } = req.params;
+
+    DB.updateTodo({ status, _id: id as Todo['_id'] });
+
+    return res(
+      ctx.status(HTTP_STATUS_CODE.OK),
+      ctx.json(DB.todos.find(({ _id }) => _id === id)),
+    );
+  }),
+
   rest.delete(`${API_ENDPOINT}/:id`, (req, res, ctx) => {
     const { id } = req.params as { id: string };
     DB.delTodo(id);
