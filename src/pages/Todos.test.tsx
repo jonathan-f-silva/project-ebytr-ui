@@ -5,8 +5,8 @@ import { rest } from 'msw';
 import TEST_IDS from '../utils/testIds';
 import { screen, userEvent } from '../utils/test-utils';
 import { todoMock } from '../test/todoMocks';
-import { server } from '../test/mockApi/server';
-import { API_ENDPOINT, HTTP_STATUS_CODE } from '../test/mockApi/handlers';
+import { server } from '../mocks/server';
+import { API_ENDPOINT, HTTP_STATUS_CODE } from '../mocks/handlers';
 
 import { TodosProvider } from '../context/TodosContext';
 import Todos from './Todos';

@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import TEST_IDS from './utils/testIds';
 import App from './App';
 import { TodosProvider } from './context/TodosContext';
-import { DB } from './test/mockApi/handlers';
+import { DB } from './mocks/handlers';
 import { todoMocks } from './test/todoMocks';
 
 describe('App', () => {

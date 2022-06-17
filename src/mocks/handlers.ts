@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { Todo } from '../../@types/custom';
+import { Todo } from '../@types/custom';
 
 export const HTTP_STATUS_CODE = {
   OK: 200,
@@ -57,6 +57,18 @@ export const handlers = [
     const { id } = req.params;
 
     DB.updateTodo({ ...update, _id: id as Todo['_id'] });
+
+    return res(
+      ctx.status(HTTP_STATUS_CODE.OK),
+      ctx.json(DB.todos.find(({ _id }) => _id === id)),
+    );
+  }),
+
+  rest.patch(`${API_ENDPOINT}/:id/status`, (req, res, ctx) => {
+    const { status } = req.body as Todo;
+    const { id } = req.params;
+
+    DB.updateTodo({ status, _id: id as Todo['_id'] });
 
     return res(
       ctx.status(HTTP_STATUS_CODE.OK),
