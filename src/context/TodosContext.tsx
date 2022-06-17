@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 
-import { ChildrenProps, Todo, TodoField } from '../@types/custom';
+import type { ChildrenProps, Todo, TodoField } from '../@types/custom';
+import { ApiTodoService } from '../services/ApiTodoService';
+import { TodoService } from '../services/TodoService';
 
 export type TodosContextType = {
   error: string | null,
@@ -15,16 +16,6 @@ export type TodosContextType = {
   updateTodoStatus: (todoId: Todo['_id'], status: Todo['status']) => void,
 }
 
-export const TODO_STATUSES = ['A fazer', 'Em andamento', 'Concluído! 🎉'];
-export const TODO_FIELDS: TodoField[] = ['createdAt', 'description', 'status'];
-
-const API_URL = import.meta.env.VITE_API_URL;
-const ENDPOINT = API_URL ? `${API_URL}/api` : '/api';
-
-const API = axios.create({
-  baseURL: ENDPOINT,
-});
-
 // React com TS é complexo!
 // https://blog.logrocket.com/how-to-use-react-context-typescript/
 export const TodosContext = createContext<TodosContextType | null>(null);
@@ -34,80 +25,64 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[] | null>(null);
   const [sortOption, setSortOption] = useState<TodoField>('createdAt');
 
-  const sortTodos = useCallback((unsortedTodos = [] as Todo[]) => {
-    const sortedTodos = unsortedTodos.sort((a, b) => {
-      const REVERSE = -1;
-      if (a[sortOption].toLowerCase() > b[sortOption].toLowerCase()) {
-        return 1;
-      }
-      return REVERSE;
-    });
-    return sortedTodos;
-  }, [sortOption]);
+  const todoService: TodoService = useMemo(
+    () => new ApiTodoService(sortOption), [sortOption],
+  );
 
   const getTodos = useCallback(async () => {
     try {
-      const { data } = await API.get<Todo []>('/todos');
-      if (data) {
-        setTodos(sortTodos(data));
-      }
+      const data = await todoService.getTodos();
+      setTodos(data);
     } catch (err) {
       const { message } = err as Error;
       setError(message);
     }
-  }, [sortTodos]);
+  }, [todoService]);
 
   const addTodo = useCallback(async (description: string) => {
     try {
-      await API.post('/todos', {
-        description,
-        status: 'A fazer',
-      });
-      await getTodos();
+      const data = await todoService.addTodo(description);
+      setTodos(data);
     } catch (err) {
       const { message } = err as Error;
       setError(message);
     }
-  }, [getTodos]);
+  }, [todoService]);
 
   const updateTodo = useCallback(
     async (todoId: Todo['_id'], update: Partial<Todo>) => {
       try {
-        await API.put(`/todos/${todoId}`, {
-          ...update,
-        });
-        await getTodos();
+        const data = await todoService.updateTodo(todoId, update);
+        setTodos(data);
       } catch (err) {
         const { message } = err as Error;
         setError(message);
       }
-    }, [getTodos],
+    }, [todoService],
   );
 
   const updateTodoStatus = useCallback(
     async (todoId: Todo['_id'], status: Todo['status']) => {
       try {
-        await API.patch(`/todos/${todoId}/status`, {
-          status,
-        });
-        await getTodos();
+        const data = await todoService.updateTodoStatus(todoId, status);
+        setTodos(data);
       } catch (err) {
         const { message } = err as Error;
         setError(message);
       }
-    }, [getTodos],
+    }, [todoService],
   );
 
   const deleteTodo = useCallback(
     async (todoId: Todo['_id']) => {
       try {
-        await API.delete(`/todos/${todoId}`);
-        await getTodos();
+        const data = await todoService.deleteTodo(todoId);
+        setTodos(data);
       } catch (err) {
         const { message } = err as Error;
         setError(message);
       }
-    }, [getTodos],
+    }, [todoService],
   );
 
   useEffect(() => {
