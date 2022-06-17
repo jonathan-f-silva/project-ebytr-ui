@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { ChildrenProps, Todo, TodoField } from '../@types/custom';
-import { ApiTodoService } from '../services/ApiTodoService';
+// import { ApiTodoService } from '../services/ApiTodoService';
+import { MemoryTodoService } from '../services/MemoryTodoService';
 import { TodoService } from '../services/TodoService';
 
 export type TodosContextType = {
@@ -26,7 +27,7 @@ export const TodosProvider: React.FC<ChildrenProps> = ({ children }) => {
   const [sortOption, setSortOption] = useState<TodoField>('createdAt');
 
   const todoService: TodoService = useMemo(
-    () => new ApiTodoService(sortOption), [sortOption],
+    () => new MemoryTodoService(sortOption), [sortOption],
   );
 
   const getTodos = useCallback(async () => {
