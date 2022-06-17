@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Button, HStack, IconButton, Input, Spacer, Text } from '@chakra-ui/react';
-import { Todo } from '../@types/custom';
-import { TodosContext, TodosContextType, TODO_STATUSES } from '../context/TodosContext';
+import type { Todo } from '../@types/custom';
+import { TodosContext, TodosContextType } from '../context/TodosContext';
 import TEST_IDS from '../utils/testIds';
+import { TODO_STATUSES } from '../utils/custom';
 
 type TodosItemProps = {
   todo: Todo,

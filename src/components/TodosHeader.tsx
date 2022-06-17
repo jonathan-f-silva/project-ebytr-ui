@@ -1,11 +1,11 @@
 import { Button, HStack, Input, Select } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
-import { TodoField } from '../@types/custom';
+import type { TodoField } from '../@types/custom';
 import {
   TodosContext,
   TodosContextType,
-  TODO_FIELDS,
 } from '../context/TodosContext';
+import { TODO_FIELDS } from '../utils/custom';
 import TEST_IDS from '../utils/testIds';
 
 export default function TodosHeader() {

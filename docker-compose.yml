@@ -8,8 +8,8 @@ services:
       - 3002:3002
     volumes:
       - ./src:/app/src
-    environment:
-      - API_HOST=api
+    # environment:
+      # - VITE_API_URL=http://localhost:3001
     networks:
       - ebytr-dev
 
