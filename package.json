@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "deploy:gh": "vite build --base /project-ebytr-ui/ && gh-pages -d dist",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "preview": "vite preview",
     "test": "vitest --run",
@@ -43,10 +44,14 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-sonarjs": "^0.13.0",
+    "gh-pages": "^4.0.0",
     "jsdom": "^19.0.0",
     "msw": "^0.41.0",
     "typescript": "^4.6",
     "vite": "^2.9.9",
     "vitest": "^0.12.6"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
