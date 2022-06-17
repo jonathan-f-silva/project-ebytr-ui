@@ -7,7 +7,11 @@ import App from './App';
 import { TodosProvider } from './context/TodosContext';
 
 // Inicia o mock do backend
-worker.start();
+worker.start({
+  serviceWorker: {
+    url: `${window.location.pathname}mockServiceWorker.js`,
+  },
+});
 
 const customTheme = extendTheme({
   semanticTokens: {
